@@ -75,7 +75,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "96%",
     },
     {
         id: 3,
@@ -83,7 +83,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "56%",
     },
     {
         id: 4,
@@ -91,7 +91,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "76%",
     },
     {
         id: 5,
@@ -99,7 +99,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "25%",
     },
     {
         id: 6,
@@ -114,16 +114,16 @@ export const ClassData = [
         image: image1,
         Name: "Shivam Madhesia",
         Class: "1st",
-        Grade: "80%",
-        Attendance: "86%",
+        Grade: "69%",
+        Attendance: "40%",
     },
     {
         id: 8,
         image: image1,
         Name: "Shivam Madhesia",
         Class: "1st",
-        Grade: "80%",
-        Attendance: "86%",
+        Grade: "66%",
+        Attendance: "10%",
     },
     {
         id: 9,
@@ -139,7 +139,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "50%",
     },
     {
         id: 11,
@@ -155,7 +155,7 @@ export const ClassData = [
         Name: "Shivam Madhesia",
         Class: "1st",
         Grade: "80%",
-        Attendance: "86%",
+        Attendance: "60%",
     },
 
 ]
