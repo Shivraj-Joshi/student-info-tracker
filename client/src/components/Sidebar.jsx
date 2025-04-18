@@ -15,52 +15,51 @@ const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="h-[100vh] w-[250px] bg-green-400">
-      Harmony Elementry School
+    <div className="h-[100vh] w-[250px] bg-white shadow-xl">
       <div>
-        <div className="flex flex-col items-center gap-2 p-2">
+        <div className="flex flex-col items-center gap-2 p-2 border-b border-b-slate-200">
           <img
             src={image}
             className="h-auto w-[150px] rounded-[50%] object-cover"
             alt="school logo"
           />
-          <h1>Harmony Elementry School</h1>
+          <h1 className="text-md text-[#92959f]">Harmony Elementry School</h1>
         </div>
-        <p>Main Menu</p>
+        <p className="p-3 font-semibold text-[#92959f]">Main Menu</p>
         {/* links */}
-        <div className="bg-pink-300 p-3 ">
-          <ul className="flex flex-col gap-5">
-            <li className="bg-white p-2 flex gap-3">
-              <TbAppsFilled />
+        <div className="">
+          <ul className="flex flex-col  gap-4 font-semibold">
+            <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+              <TbAppsFilled className="text-xl" />
               Home
             </li>
-            <li className="bg-white p-2 flex gap-3">
-              <PiStudentFill />
+            <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+              <PiStudentFill className="text-xl" />
               Students
             </li>
-            <li className="bg-white p-2 flex gap-3">
-              <FaRankingStar />
+            <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+              <FaRankingStar className="text-xl" />
               Class Ranking
             </li>
-            <li className="bg-white p-2 flex gap-3">
-              <MdEmojiEvents />
+            <li className="bg-white p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+              <MdEmojiEvents className="text-xl" />
               Events
             </li>
           </ul>
         </div>
         {/* profiles */}
-        <div className="flex flex-col gap-3">
-          <div className="bg-purple-500 p-3">
-            <h1>
+        <div className="flex flex-col gap-3 mt-2 font-semibold">
+          <div className="p-3 cursor-pointer hover:bg-purple-400 transition-translate duration-300">
+            <h1 className="flex items-center gap-3">
               {" "}
-              <FaUser />
+              <FaUser className="text-xl" />
               Login
             </h1>
           </div>
-          <div className="bg-purple-500 p-3">
-            <h1>
+          <div className=" p-3 cursor-pointer hover:bg-purple-400 transition-translate duration-300 ">
+            <h1 className="flex items-center  gap-3">
               {" "}
-              <RiAdminFill />
+              <RiAdminFill className="text-xl" />
               Admin
             </h1>
           </div>

@@ -1,10 +1,13 @@
 import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      {/* <div className="bg-zinc-900 h-[100vh] w-[100vw]"></div> */}
-      <Sidebar />
+      <div className="bg-[#f8f8fd] flex">
+        <Sidebar />
+        <Home />
+      </div>
     </>
   );
 }
