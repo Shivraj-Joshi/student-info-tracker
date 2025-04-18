@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 function App() {
   return (
     <>
-      <div className="bg-[#f8f8fd] flex">
+      <div className="bg-[#f8f8fd] flex flex-col md:flex-row">
         <Sidebar />
         <Home />
       </div>

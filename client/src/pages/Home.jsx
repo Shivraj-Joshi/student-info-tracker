@@ -32,12 +32,12 @@ const Home = () => {
         {StudentData.map((project) => (
           <div
             key={project.id}
-            className="student-card flex flex-col p-3 gap-2 items-center bg-white rounded-lg shadow-lg w-[250px] h-[250px] cursor-pointer"
+            className="student-card flex flex-col p-3 gap-3 md:gap-2 items-center bg-white rounded-lg shadow-lg h-[350px] w-[350px] md:h-[250px] md:w-[250px]  cursor-pointer"
           >
             <img
               src={project.image}
               alt=""
-              className="h-[120px] w-[120px] rounded-[50%] "
+              className=" h-[200px] w-[200px] md:h-[120px] md:w-[120px] rounded-[50%] "
             />
             <h1>Name: {project.Name}</h1>
             <p>Roll No: {project.rollNo}</p>
