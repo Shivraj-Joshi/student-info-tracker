@@ -3,8 +3,8 @@ import { ClassData } from "../data/Data";
 
 const Students = () => {
   return (
-    <div className="flex h-screen w-screen bg-transparent p-5 justify-center">
-      <div className="bg-white w-full max-w-[90vw] rounded-lg shadow-lg">
+    <div className="flex h-auto w-auto bg-transparent p-2 justify-center">
+      <div className="bg-white w-full max-w-[75vw] max-h-[85vh] rounded-lg shadow-lg">
         {/* Table wrapper with vertical scroll */}
         <div className="overflow-y-auto max-h-full rounded-lg">
           <table className="min-w-full text-sm text-left text-gray-700 bg-white">

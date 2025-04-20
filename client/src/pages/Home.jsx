@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className=" bg-transparent w-full">
       {/* topbar */}
-      <div className="topbar  p-3 flex items-center justify-evenly gap-3 bg-transparent">
+      {/* <div className="topbar  p-3 flex items-center justify-evenly gap-3 bg-transparent">
         <h1 className="text-[#606265]">Home Page</h1>
         <div className="search w-[200px] md:w-[350px] bg-white rounded-lg flex gap-2 p-2 md:p-1 items-center  text-[#606265]">
           <input
@@ -23,7 +23,7 @@ const Home = () => {
           <SiGoogleclassroom />{" "}
           <h1 className="font-semibold text-[#606265]">Class</h1>
         </div>
-      </div>
+      </div> */}
       {/* main container */}
       <h1 className="text-center text-[#606265] font-semibold">
         Top Performers

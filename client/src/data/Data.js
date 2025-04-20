@@ -5,56 +5,56 @@ export const StudentData = [
     {
         id: 1,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Steve Rogers",
         rollNo: 12110021,
         class: "1st"
     },
     {
         id: 2,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Tony Stark",
         rollNo: 12110021,
         class: "2nd"
     },
     {
         id: 3,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Natasha Romonff",
         rollNo: 12110021,
         class: "3rd"
     },
     {
         id: 4,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Thor oddinson",
         rollNo: 12110021,
         class: "4th"
     },
     {
         id: 5,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Bruce Banner",
         rollNo: 12110021,
         class: "5th"
     },
     {
         id: 6,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "MJ Watson",
         rollNo: 12110021,
         class: "6th"
     },
     {
         id: 7,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Peter Parker",
         rollNo: 12110021,
         class: "7th"
     },
     {
         id: 8,
         image: image1,
-        Name: "Shivam Madhesia",
+        Name: "Gwen Stacy",
         rollNo: 12110021,
         class: "8th"
     },
