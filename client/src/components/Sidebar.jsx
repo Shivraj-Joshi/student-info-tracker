@@ -7,6 +7,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { FaRankingStar } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,22 +32,30 @@ const Sidebar = () => {
         {/* links */}
         <div className="hidden md:flex flex-col">
           <ul className="flex flex-col  gap-4 font-semibold">
-            <li className="  p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
-              <TbAppsFilled className="text-xl" />
-              Home
-            </li>
-            <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
-              <PiStudentFill className="text-xl" />
-              Students
-            </li>
-            <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
-              <FaRankingStar className="text-xl" />
-              Class Ranking
-            </li>
-            <li className="bg-white p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
-              <MdEmojiEvents className="text-xl" />
-              Events
-            </li>
+            <Link to="/">
+              <li className="  p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+                <TbAppsFilled className="text-xl" />
+                Home
+              </li>
+            </Link>
+            <Link to="/students">
+              <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+                <PiStudentFill className="text-xl" />
+                Students
+              </li>
+            </Link>
+            <Link to="/classranking">
+              <li className=" p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+                <FaRankingStar className="text-xl" />
+                Class Ranking
+              </li>
+            </Link>
+            <Link to="/events">
+              <li className="bg-white p-3 flex items-center gap-3 cursor-pointer hover:bg-purple-300 transition-translate duration-300">
+                <MdEmojiEvents className="text-xl" />
+                Events
+              </li>
+            </Link>
           </ul>
         </div>
         {/* profiles */}
