@@ -4,11 +4,11 @@ import Topbar from "./Topbar";
 import { Outlet } from "react-router";
 const Layout = () => {
   return (
-    <div className="flex h-screen w-screen">
+    <div className="md:flex h-screen w-screen">
       <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className="md:flex flex-col flex-1 overflow-hidden">
         <Topbar />
-        <div className="flex-1 overflow-hidden p-4 bg-gray-200">
+        <div className="md:flex-1 overflow-hidden p-4 bg-gray-200">
           <Outlet />
         </div>
       </div>

@@ -3,13 +3,13 @@ import { ClassData } from "../data/Data";
 
 const Students = () => {
   return (
-    <div className="flex h-auto w-auto bg-transparent p-2 justify-center">
-      <div className="bg-white w-full max-w-[75vw] max-h-[85vh] rounded-lg shadow-lg">
+    <div className="flex h-auto w-auto bg-transparent p-2  justify-center">
+      <div className="bg-white w-[160vw] max-w-[75vw] max-h-[85vh] rounded-lg shadow-lg">
         {/* Table wrapper with vertical scroll */}
         <div className="overflow-y-auto max-h-full rounded-lg">
-          <table className="min-w-full text-sm text-left text-gray-700 bg-white">
+          <table className="  min-w-full text-sm text-left text-gray-700 bg-white">
             {/* Head of the table */}
-            <thead className="sticky top-0 z-10 text-xs text-gray-500 uppercase bg-white border-b-2 border-purple-600 shadow-lg">
+            <thead className="md:sticky md:top-0 md:z-10 text-xs text-gray-500 uppercase bg-white border-b-2 border-purple-600 shadow-lg">
               <tr>
                 <th className="p-4">Sr.No</th>
                 <th className="p-4">Name</th>

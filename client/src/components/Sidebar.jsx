@@ -86,10 +86,21 @@ const Sidebar = () => {
       {/* for small devices */}
       {isMenuOpen ? (
         <ul className="md:hidden space-y-2 absolute top-[10%] left-0 w-full flex flex-col gap-2 items-center bg-[#fff] text-black transition-translate duration-300 ">
-          <li>Home</li>
-          <li>Students</li>
-          <li>Class Ranking</li>
-          <li>Events</li>
+          <Link to="/">
+            {" "}
+            <li>Home</li>
+          </Link>
+          <Link to="/students">
+            <li>Students</li>
+          </Link>
+          <Link to="/classranking">
+            {" "}
+            <li>Class Ranking</li>
+          </Link>
+          <Link to="/events">
+            {" "}
+            <li>Events</li>
+          </Link>
           <li>Login</li>
           <li>Admin</li>
         </ul>

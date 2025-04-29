@@ -4,8 +4,8 @@ import { RiSearchEyeLine } from "react-icons/ri";
 
 const Topbar = () => {
   return (
-    <div className=" h-[50px] w-[90vw] ">
-      <div className="topbar  p-3 flex items-center justify-evenly gap-3 bg-gray-200">
+    <div className=" h-[50px] md:w-[90vw] w-[100vw]  ">
+      <div className="topbar  p-3 flex items-center justify-evenly gap-3 bg-gray-200 ">
         <h1 className="text-[#606265]">Home Page</h1>
         <div className="search w-[200px] md:w-[350px] bg-white rounded-lg flex gap-2 p-2 md:p-1 items-center  text-[#606265]">
           <input
