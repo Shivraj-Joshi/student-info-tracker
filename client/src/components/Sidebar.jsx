@@ -85,24 +85,24 @@ const Sidebar = () => {
 
       {/* for small devices */}
       {isMenuOpen ? (
-        <ul className="md:hidden space-y-2 absolute top-[10%] left-0 w-full flex flex-col gap-2 items-center bg-[#fff] text-black transition-translate duration-300 ">
+        <ul className="md:hidden space-y-2 absolute top-[10%]  left-0 w-full flex flex-col gap-2 items-center bg-[#fff] text-black transition-translate duration-300 ">
           <Link to="/">
             {" "}
-            <li>Home</li>
+            <li onClick={(e) => setIsMenuOpen(false)}>Home</li>
           </Link>
           <Link to="/students">
-            <li>Students</li>
+            <li onClick={(e) => setIsMenuOpen(false)}>Students</li>
           </Link>
           <Link to="/classranking">
             {" "}
-            <li>Class Ranking</li>
+            <li onClick={(e) => setIsMenuOpen(false)}>Class Ranking</li>
           </Link>
           <Link to="/events">
             {" "}
-            <li>Events</li>
+            <li onClick={(e) => setIsMenuOpen(false)}>Events</li>
           </Link>
-          <li>Login</li>
-          <li>Admin</li>
+          <li onClick={(e) => setIsMenuOpen(false)}>Login</li>
+          <li onClick={(e) => setIsMenuOpen(false)}>Admin</li>
         </ul>
       ) : (
         ""
