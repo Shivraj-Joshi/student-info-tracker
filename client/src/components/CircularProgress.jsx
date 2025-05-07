@@ -1,6 +1,6 @@
 import React from "react";
 
-const CircularProgress = ({ value = 0, size = 120, stroke = 10 }) => {
+const CircularProgress = ({ value = 66, size = 90, stroke = 8 }) => {
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (value / 100) * circumference;

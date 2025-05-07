@@ -1,4 +1,8 @@
 import image1 from "../assets/student1.jpg"
+import sports from "../assets/sports.png"
+// import image1 from "../assets/student1.jpg"
+// import image1 from "../assets/student1.jpg"
+// import image1 from "../assets/student1.jpg"
 
 
 export const StudentData = [
@@ -159,3 +163,72 @@ export const ClassData = [
     },
 
 ]
+
+
+export const SubjectData = [
+    {
+        id: 1,
+        subject: "Maths",
+        score: 75,
+    },
+    {
+        id: 2,
+        subject: "English",
+        score: 25,
+    },
+    {
+        id: 3,
+        subject: "Social Studies",
+        score: 65,
+    },
+    {
+        id: 4,
+        subject: "Computer",
+        score: 90,
+    },
+    {
+        id: 5,
+        subject: "Science",
+        score: 77,
+    },
+]
+
+export const ActivityData = [
+    {
+        id: 101,
+        activity: "Sports",
+        performance: 90,
+        image: sports,
+    },
+    {
+        id: 102,
+        activity: "Academics",
+        performance: 70,
+        image: sports,
+    },
+    {
+        id: 104,
+        activity: "Events",
+        performance: 80,
+        image: sports,
+    },
+    {
+        id: 103,
+        activity: "others",
+        performance: 60,
+        image: sports,
+    },
+
+]
+
+export const data = [
+    { month: 'Jan', marks: 30 },
+    { month: 'Feb', marks: 45 },
+    { month: 'Mar', marks: 38 },
+    { month: 'Apr', marks: 55 },
+    { month: 'May', marks: 53 },
+    { month: 'Jun', marks: 68 },
+    { month: 'Jul', marks: 75 },
+    { month: 'Aug', marks: 95 },
+    { month: 'Sep', marks: 125 },
+];
