@@ -1,8 +1,8 @@
 import image1 from "../assets/student1.jpg"
 import sports from "../assets/sports.png"
-// import image1 from "../assets/student1.jpg"
-// import image1 from "../assets/student1.jpg"
-// import image1 from "../assets/student1.jpg"
+import academic from "../assets/academics.png"
+import creative from "../assets/creative.png"
+import attendance from "../assets/attendance.png"
 
 
 export const StudentData = [
@@ -204,19 +204,19 @@ export const ActivityData = [
         id: 102,
         activity: "Academics",
         performance: 70,
-        image: sports,
+        image: academic,
     },
     {
         id: 104,
         activity: "Events",
         performance: 80,
-        image: sports,
+        image: creative,
     },
     {
         id: 103,
         activity: "others",
-        performance: 60,
-        image: sports,
+        performance: 50,
+        image: attendance,
     },
 
 ]

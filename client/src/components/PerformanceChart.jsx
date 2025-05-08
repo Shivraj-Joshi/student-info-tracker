@@ -20,7 +20,7 @@ const PerformanceChart = () => {
     { month: "Jun", marks: 68 },
     { month: "Jul", marks: 75 },
     { month: "Aug", marks: 95 },
-    { month: "Sep", marks: 125 },
+    { month: "Sep", marks: 110 },
   ];
   return (
     <div style={{ width: "90%", height: 165 }}>

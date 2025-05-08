@@ -9,7 +9,7 @@ const StudentInfo = () => {
   //   const [progress, setProgress] = useState(90);
   return (
     <div
-      className="md:h-[100dvh] md:w-[100dvw] bg-sky-400 flex flex-col md:flex-row
+      className="md:h-[100dvh] md:w-[100dvw]  flex flex-col md:flex-row
      p-2 md:gap-5 gap-3"
     >
       {/* div for student profile and personal information  */}
@@ -45,7 +45,7 @@ const StudentInfo = () => {
         </div>
       </div>
       {/* div for students academics performance  */}
-      <div className="right-div h-[85dvh]   md:w-[60dvw] flex flex-col  gap-6 bg-amber-300 p-3 text-wrap rounded-2xl ">
+      <div className="right-div h-[85dvh]   md:w-[60dvw] flex flex-col  gap-5  p-3 text-wrap rounded-2xl overflow-y-scroll md:overflow-hidden">
         {/* performence based on academics */}
         <div className="h-auto w-full bg-white p-2 rounded-2xl ">
           <h1 className="text-center text-gray-600">
@@ -82,16 +82,19 @@ const StudentInfo = () => {
           </div>
         </div>
         {/* performance based on  different activities */}
-        <div className="bg-white rounded-2xl  md:w-[450px] flex flex-wrap p-3 gap-5">
+        <div className="bg-white rounded-2xl  md:w-[400px] flex  p-3 gap-5">
           {ActivityData.map((activity) => (
-            <div key={activity.id}>
-              <CircularProgress />
+            <div key={activity.id} className=" p-1 flex flex-col items-center">
+              <CircularProgress
+                value={activity.performance}
+                image={activity.image}
+              />
             </div>
           ))}
         </div>
-        {/* atandance */}
+        {/* overall performance in chart */}
         <div className="bg-white rounded-2xl  w-full p-3 flex flex-col gap-3">
-          <span className="text-center">Overall Performance</span>
+          <span className="text-center text-gray-600">Overall Performance</span>
           {/* <CircularProgress /> */}
           <PerformanceChart />
         </div>
