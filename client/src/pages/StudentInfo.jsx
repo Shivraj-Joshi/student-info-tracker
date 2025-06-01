@@ -82,7 +82,7 @@ const StudentInfo = () => {
           </div>
         </div>
         {/* performance based on  different activities */}
-        <div className="bg-white rounded-2xl  md:w-[400px] flex  p-3 gap-5">
+        <div className="bg-white rounded-2xl  md:w-[400px] flex  p-3 gap-5 overflow-x-scroll md:overflow-x-hidden">
           {ActivityData.map((activity) => (
             <div key={activity.id} className=" p-1 flex flex-col items-center">
               <CircularProgress
