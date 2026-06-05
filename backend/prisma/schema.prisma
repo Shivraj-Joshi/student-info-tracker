@@ -1,0 +1,169 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// ============================================================
+// Prisma Schema — Student Info Tracker
+// ============================================================
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+// ============================================================
+// ADMIN
+// The ultimate authority — manages teachers only
+// ============================================================
+
+model Admin {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String    // store bcrypt hash, never plain text
+  createdAt DateTime  @default(now())
+
+  teachers  Teacher[] // admin can add/remove teachers
+}
+
+// ============================================================
+// TEACHER
+// Manages a class, marks attendance, records grades
+// ============================================================
+
+model Teacher {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String    // bcrypt hash
+  phone     String?
+  createdAt DateTime  @default(now())
+
+  adminId   Int
+  admin     Admin     @relation(fields: [adminId], references: [id])
+
+  subjectId Int
+  subject   Subject   @relation(fields: [subjectId], references: [id])
+
+  grades     Grade[]
+  attendance Attendance[]
+}
+
+// ============================================================
+// STUDENT
+// Can view their own info, attendance, and grades
+// ============================================================
+
+model Student {
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  password   String    // bcrypt hash
+  rollNumber String    @unique
+  phone      String?
+  class      String    // e.g. "10-A", "CSE-2"
+  dob        DateTime?
+  photoUrl   String?
+  createdAt  DateTime  @default(now())
+
+  enrollments Enrollment[]
+  attendance  Attendance[]
+  grades      Grade[]
+}
+
+// ============================================================
+// SUBJECT
+// A course / paper (Mathematics, DSA, Java, etc.)
+// ============================================================
+
+model Subject {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  teachers    Teacher[]
+  enrollments Enrollment[]
+  attendance  Attendance[]
+  grades      Grade[]
+}
+
+// ============================================================
+// ENROLLMENT (junction table: Student <-> Subject)
+// Tracks which students are enrolled in which subjects
+// ============================================================
+
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+  enrolledAt DateTime @default(now())
+
+  studentId  Int
+  student    Student  @relation(fields: [studentId], references: [id])
+
+  subjectId  Int
+  subject    Subject  @relation(fields: [subjectId], references: [id])
+
+  @@unique([studentId, subjectId]) // a student can't enroll in same subject twice
+}
+
+// ============================================================
+// ATTENDANCE
+// One record per student per subject per day
+// Marked by a teacher
+// ============================================================
+
+model Attendance {
+  id     Int              @id @default(autoincrement())
+  date   DateTime
+  status AttendanceStatus @default(PRESENT)
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  teacherId Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+
+  @@unique([studentId, subjectId, date]) // one attendance entry per student per subject per day
+}
+
+// ============================================================
+// GRADE
+// Academic progress — recorded/updated by a teacher
+// ============================================================
+
+model Grade {
+  id        Int      @id @default(autoincrement())
+  score     Float    // e.g. 85.5 out of 100
+  remarks   String?  // optional teacher comment
+  updatedAt DateTime @updatedAt
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  teacherId Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+
+  @@unique([studentId, subjectId]) // one grade record per student per subject
+}
