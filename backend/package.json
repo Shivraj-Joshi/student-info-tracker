@@ -7,6 +7,9 @@
   "scripts": {
     "dev": "node --watch --env-file=.env src/server.js"
   },
+  "prisma": {
+    "seed": "node --env-file=.env prisma/seed.js"
+  },
   "author": "Shivraj Joshi",
   "license": "ISC",
   "dependencies": {
