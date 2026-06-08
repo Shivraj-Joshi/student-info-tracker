@@ -24,7 +24,7 @@ export const adminLogin = async (email, password) => {
     //creating jwt token with id and role inside
     const token = jwt.sign({
         id: admin.id,
-        role: 'Admin'
+        role: 'ADMIN'
     }, process.env.JWT_SECRET_KEY, {
         expiresIn: '1d'
     })
