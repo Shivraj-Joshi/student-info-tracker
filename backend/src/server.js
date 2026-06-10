@@ -5,6 +5,7 @@ import teacherRoutes from './routes/teacher.routes.js'
 import studentRoutes from './routes/student.routes.js'
 import enrollmentRoutes from './routes/enrollment.routes.js'
 import attendanceRoutes from './routes/attendance.routes.js'
+import gradeRoutes from './routes/grade.routes.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,6 +17,7 @@ app.use('/api/teacher', teacherRoutes)
 app.use('/api/student', studentRoutes)
 app.use('/api/enrollment', enrollmentRoutes)
 app.use('/api/attendance', attendanceRoutes)
+app.use('/api/grade', gradeRoutes)
 
 app.get('/', (req, res) => {
     res.json({ message: 'Hello students' })
