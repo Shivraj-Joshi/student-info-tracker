@@ -50,8 +50,7 @@ const TeacherDashboard = () => {
     fetchData();
   }, []);
 
-  const handleMarkAttendance = async (e) => {
-    e.preventDefalut();
+  const handleMarkAttendance = async () => {
     try {
       await apiRequest(
         "/api/attendance",
@@ -64,7 +63,7 @@ const TeacherDashboard = () => {
         },
         user.token,
       );
-      setMessage("Attendance Marked succesfully !");
+      setMessage("Attendance Marked successfully !");
       setAttendanceForm({
         studentId: "",
         subjectId: "",
@@ -72,25 +71,24 @@ const TeacherDashboard = () => {
         status: "PRESENT",
       });
     } catch (error) {
-      setMessage(err.message);
+      setMessage(error.message);
     }
   };
 
-  const handleRecordGrade = async (e) => {
-    e.preventDefalut();
+  const handleRecordGrade = async () => {
     try {
-      await apiRequest(
+      const result = await apiRequest(
         "/api/grade",
         "POST",
         {
           studentId: parseInt(gradeForm.studentId),
           subjectId: parseInt(gradeForm.subjectId),
-          score: parseFloat(gradeForm),
+          score: parseFloat(gradeForm.score),
           remarks: gradeForm.remarks,
         },
         user.token,
       );
-      setMessage("Grade Recorded succesfully !");
+      setMessage("Grade Recorded successfully !");
       setGradeForm({
         studentId: "",
         subjectId: "",
@@ -98,7 +96,7 @@ const TeacherDashboard = () => {
         remarks: "",
       });
     } catch (error) {
-      setMessage(err.message);
+      setMessage(error.message);
     }
   };
 
@@ -256,12 +254,12 @@ const TeacherDashboard = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
               {message && (
                 <p
-                  className={`text-sm mb-4 ${message.includes("success") ? "text-green-600" : "text-red-500"}`}
+                  className={`text-sm mb-4 ${message.includes("successfully") ? "text-green-600" : "text-red-500"}`}
                 >
                   {message}
                 </p>
               )}
-              <form onSubmit={handleMarkAttendance} className="space-y-4">
+              <form className="space-y-4">
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">
                     Student ID
@@ -333,7 +331,8 @@ const TeacherDashboard = () => {
                   </select>
                 </div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleMarkAttendance}
                   className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
                 >
                   Mark Attendance
@@ -352,12 +351,12 @@ const TeacherDashboard = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
               {message && (
                 <p
-                  className={`text-sm mb-4 ${message.includes("success") ? "text-green-600" : "text-red-500"}`}
+                  className={`text-sm mb-4 ${message.includes("successfully ") ? "text-green-600" : "text-red-500"}`}
                 >
                   {message}
                 </p>
               )}
-              <form onSubmit={handleRecordGrade} className="space-y-4">
+              <form className="space-y-4">
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">
                     Student ID
@@ -415,7 +414,8 @@ const TeacherDashboard = () => {
                   />
                 </div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleRecordGrade}
                   className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
                 >
                   Record Grade
