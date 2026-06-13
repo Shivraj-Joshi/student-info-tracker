@@ -1,4 +1,4 @@
-import { createTeacher, loginTeacher } from "../services/teacher.service.js";
+import { createTeacher, loginTeacher, getAllTeachers, deleteTeacher, getAllSubjects } from "../services/teacher.service.js";
 
 export const register = async (req, res) => {
     try {
@@ -19,5 +19,33 @@ export const login = async (req, res) => {
         res.json(result)
     } catch (error) {
         res.status(400).json({ message: error.message })
+    }
+}
+
+export const getAll = async (req, res) => {
+    try {
+        const result = await getAllTeachers()
+        res.json(result)
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+}
+
+export const remove = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id)
+        const result = await deleteTeacher(id)
+        res.json(result)
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+}
+
+export const getSubjects = async (req, res) => {
+    try {
+        const result = await getAllSubjects()
+        res.json(result)
+    } catch (err) {
+        res.status(400).json({ message: err.message })
     }
 }

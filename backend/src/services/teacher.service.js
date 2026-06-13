@@ -66,3 +66,19 @@ export const loginTeacher = async (email, password) => {
     return { token, name: teacher.name, email: teacher.email }
 
 }
+
+export const getAllTeachers = async () => {
+    return await prisma.teacher.findMany({
+        select: { id: true, name: true, email: true, phone: true }
+    })
+}
+
+export const deleteTeacher = async (id) => {
+    const teacher = await prisma.teacher.findUnique({ where: { id } })
+    if (!teacher) throw new Error('Teacher not found')
+    await prisma.teacher.delete({ where: { id } })
+    return { message: 'Teacher removed successfully' }
+}
+export const getAllSubjects = async () => {
+    return await prisma.subject.findMany()
+}
