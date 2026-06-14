@@ -18,6 +18,7 @@ const AdminDasboard = () => {
     subjectId: "",
   });
   const [subjects, setSubjects] = useState([]);
+  const [subjectForm, setSubjectForm] = useState({ name: "" });
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -86,6 +87,38 @@ const AdminDasboard = () => {
     navigate("/login");
   };
 
+  //adding a new subject
+
+  const handleAddSubject = async () => {
+    try {
+      await apiRequest(
+        "/api/subject",
+        "POST",
+        { name: subjectForm.name },
+        user.token,
+      );
+      setMessage("Subject added successfully");
+      setSubjectForm({ name: "" });
+      const data = await apiRequest("/api/subject", "GET", null, user.token);
+      setSubjects(data);
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+  // deleting a subject
+
+  const deletSubject = async () => {
+    try {
+      await apiRequest(`/api/subject/${id}`, "DELETE", null, user.token);
+      setMessage("Subject deleted successfully");
+      setSubjects(subjects.filter((s) => s.id !== id));
+      setSubjects(data);
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -113,6 +146,7 @@ const AdminDasboard = () => {
             { key: "dashboard", label: "Dashboard" },
             { key: "teachers", label: "Manage Teachers" },
             { key: "add", label: "Add Teacher" },
+            { key: "subjects", label: "Manage Subjects" },
           ].map((item) => (
             <button
               key={item.key}
@@ -353,6 +387,89 @@ const AdminDasboard = () => {
                   Add Teacher
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Manage subject tab */}
+
+        {activeTab === "subjects" && (
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+              Manage Subjects
+            </h1>
+
+            {message && (
+              <p
+                className={`text-sm mb-4 ${message.includes("success") ? "text-green-600" : "text-red-500"}`}
+              >
+                {message}
+              </p>
+            )}
+
+            {/* Add subject form */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md mb-6">
+              <h2 className="text-sm font-semibold text-gray-700 mb-4">
+                Add New Subject
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Subject Name
+                  </label>
+                  <input
+                    type="text"
+                    value={subjectForm.name}
+                    onChange={(e) => setSubjectForm({ name: e.target.value })}
+                    className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                    placeholder="e.g. Mathematics"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddSubject}
+                  className="w-full bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600 cursor-pointer"
+                >
+                  Add Subject
+                </button>
+              </div>
+            </div>
+
+            {/* Subjects list */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <h2 className="text-sm font-semibold text-gray-700 mb-4">
+                All Subjects
+              </h2>
+              {subjects.length === 0 ? (
+                <p className="text-gray-400 text-sm">No subjects added yet.</p>
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-gray-400 border-b border-gray-100">
+                      <th className="pb-3 font-medium w-1/2">Subject Name</th>
+                      <th className="pb-3 font-medium w-1/2">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {subjects.map((s) => (
+                      <tr
+                        key={s.id}
+                        className="border-b border-gray-50 last:border-0"
+                      >
+                        <td className="py-3 text-gray-700 w-1/2">{s.name}</td>
+                        <td className="py-3 w-1/2">
+                          <button
+                            onClick={() => handleDeleteSubject(s.id)}
+                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         )}
