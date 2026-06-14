@@ -140,7 +140,7 @@ const TeacherDashboard = () => {
                 setActiveTab(item.key);
                 setMessage("");
               }}
-              className={`text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+              className={`text-left px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer hover:text-blue-400 ${
                 activeTab === item.key
                   ? "bg-blue-50 text-blue-700 font-medium"
                   : "text-gray-500 hover:bg-gray-50"
@@ -154,7 +154,7 @@ const TeacherDashboard = () => {
         <div className="mt-auto">
           <button
             onClick={handleLogout}
-            className="w-full text-left px-3 py-2 rounded-lg text-sm text-red-400 hover:bg-red-50"
+            className="w-full text-left px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-500 hover:text-white cursor-pointer"
           >
             Logout
           </button>

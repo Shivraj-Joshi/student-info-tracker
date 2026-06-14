@@ -3,8 +3,8 @@ import { enrollStudent, getStudentEnrollments, getSubjectEnrollments, removeEnro
 export const enrollment = async (req, res) => {
     try {
         const { studentId, subjectId } = req.body
-        console.log('student id: ', studentId)
-        console.log('subject id: ', subjectId)
+        // console.log('student id: ', studentId)
+        // console.log('subject id: ', subjectId)
         const result = await enrollStudent(studentId, subjectId)
         res.status(201).json(result)
     } catch (error) {
