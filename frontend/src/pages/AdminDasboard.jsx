@@ -1,6 +1,6 @@
 import { useState, useEffect, use } from "react";
 import { useAuth } from "../context/authContext.jsx";
-import { apiRequest } from "../api/api.jsx";
+import { apiRequest } from "../api/api.js";
 import { useNavigate } from "react-router-dom";
 
 const AdminDasboard = () => {
@@ -41,6 +41,7 @@ const AdminDasboard = () => {
     fetchTeachers();
   }, []);
 
+  //add a teacher
   const handleAddTeachers = async () => {
     try {
       const result = await apiRequest(
@@ -68,17 +69,18 @@ const AdminDasboard = () => {
       const data = await apiRequest("/api/teacher", "GET", null, user.token);
       setTeachers(data);
     } catch (error) {
-      setMessage(err.message);
+      setMessage(error.message);
     }
   };
 
+  // delete a teacher
   const handleDeleteTeacher = async (id) => {
     try {
       await apiRequest(`/api/teacher/${id}`, "DELETE", null, user.token);
       setMessage("Teacher removed successfully");
       setTeachers(teachers.filter((t) => t.id !== id));
-    } catch (err) {
-      setMessage(err.message);
+    } catch (error) {
+      setMessage(error.message);
     }
   };
 
@@ -108,12 +110,16 @@ const AdminDasboard = () => {
 
   // deleting a subject
 
-  const deletSubject = async () => {
+  const handleDeleteSubject = async (id) => {
     try {
-      await apiRequest(`/api/subject/${id}`, "DELETE", null, user.token);
+      const data = await apiRequest(
+        `/api/subject/${id}`,
+        "DELETE",
+        null,
+        user.token,
+      );
       setMessage("Subject deleted successfully");
       setSubjects(subjects.filter((s) => s.id !== id));
-      setSubjects(data);
     } catch (error) {
       setMessage(error.message);
     }
@@ -214,6 +220,7 @@ const AdminDasboard = () => {
                       <th className="pb-3 font-medium w-1/4">Name</th>
                       <th className="pb-3 font-medium w-1/4">Email</th>
                       <th className="pb-3 font-medium w-1/4">Phone</th>
+                      <th className="pb-3 font-medium w-1/4">Subject</th>
                       <th className="pb-3 font-medium w-1/4">Action</th>
                     </tr>
                   </thead>
@@ -223,12 +230,15 @@ const AdminDasboard = () => {
                         key={t.id}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="py-3 text-gray-700 w-1/4">{t.name}</td>
-                        <td className="py-3 text-gray-500 w-1/4">{t.email}</td>
-                        <td className="py-3 text-gray-500 w-1/4">
+                        <td className="py-3 text-gray-700 w-1/5">{t.name}</td>
+                        <td className="py-3 text-gray-500 w-1/5">{t.email}</td>
+                        <td className="py-3 text-gray-500 w-1/5">
                           {t.phone || "-"}
                         </td>
-                        <td className="py-3 w-1/4">
+                        <td className="py-3 text-gray-500 w-1/5">
+                          {t.subject.name}
+                        </td>
+                        <td className="py-3 w-1/5">
                           <button
                             onClick={() => handleDeleteTeacher(t.id)}
                             className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
@@ -314,47 +324,6 @@ const AdminDasboard = () => {
                 </p>
               )}
               <div className="space-y-4">
-                {[
-                  { label: "Name", key: "name", type: "text" },
-                  { label: "Email", key: "email", type: "email" },
-                  { label: "Password", key: "password", type: "password" },
-                  { label: "Phone", key: "phone", type: "text" },
-                  { label: "Subject ID", key: "subjectId", type: "number" },
-                ].map((field) => (
-                  //   <div key={field.key}>
-                  //     <label className="block text-sm text-gray-600 mb-1">
-                  //       {field.label}
-                  //     </label>
-                  //     <input
-                  //       type={field.type}
-                  //       value={teacherForm[field.key]}
-                  //       onChange={(e) =>
-                  //         setTeacherForm({
-                  //           ...teacherForm,
-                  //           [field.key]: e.target.value,
-                  //         })
-                  //       }
-                  //       className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-                  //     />
-                  //   </div>
-                  <div key={field.key}>
-                    <label className="block text-sm text-gray-600 mb-1">
-                      {field.label}
-                    </label>
-                    <input
-                      type={field.type}
-                      value={teacherForm[field.key]}
-                      onChange={(e) =>
-                        setTeacherForm({
-                          ...teacherForm,
-                          [field.key]: e.target.value,
-                        })
-                      }
-                      className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
-                    />
-                  </div>
-                ))}
-
                 {/* Subject dropdown goes here — after the map, before the button */}
                 <div>
                   <label className="block text-sm text-gray-600 mb-1">
@@ -378,6 +347,30 @@ const AdminDasboard = () => {
                     ))}
                   </select>
                 </div>
+                {[
+                  { label: "Name", key: "name", type: "text" },
+                  { label: "Email", key: "email", type: "email" },
+                  { label: "Password", key: "password", type: "password" },
+                  { label: "Phone", key: "phone", type: "text" },
+                  { label: "Subject ID", key: "subjectId", type: "number" },
+                ].map((field) => (
+                  <div key={field.key}>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      value={teacherForm[field.key]}
+                      onChange={(e) =>
+                        setTeacherForm({
+                          ...teacherForm,
+                          [field.key]: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                    />
+                  </div>
+                ))}
 
                 <button
                   type="button"

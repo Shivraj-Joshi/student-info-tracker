@@ -1,6 +1,6 @@
 import { useState, useEffect, use } from "react";
 import { useAuth } from "../context/authContext.jsx";
-import { apiRequest } from "../api/api.jsx";
+import { apiRequest } from "../api/api.js";
 import { useNavigate } from "react-router-dom";
 
 const TeacherDashboard = () => {

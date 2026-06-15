@@ -69,7 +69,7 @@ export const loginTeacher = async (email, password) => {
 
 export const getAllTeachers = async () => {
     return await prisma.teacher.findMany({
-        select: { id: true, name: true, email: true, phone: true }
+        select: { id: true, name: true, email: true, phone: true, subject: { select: { name: true } } }
     })
 }
 

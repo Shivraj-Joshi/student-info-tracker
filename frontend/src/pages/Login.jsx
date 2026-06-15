@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiRequest } from "../api/api.jsx";
+import { apiRequest } from "../api/api.js";
 import { useAuth } from "../context/authContext.jsx";
 
 const Login = () => {

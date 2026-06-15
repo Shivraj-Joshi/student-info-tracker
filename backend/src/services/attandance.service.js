@@ -3,7 +3,15 @@ import prisma from "../lib/prisma.js";
 // makring attandance of the student 
 export const markAttendance = async (studentId, subjectId, teacherId, date, status) => {
 
+    // check if teacher's subject id matches with the subject id 
 
+    const teacher = await prisma.teacher.findUnique({
+        where: { id: teacherId }
+    })
+
+    if (teacher.subjectId !== subjectId) {
+        throw new Error('You can only record attendance for your own subject')
+    }
     //checking if attandace is already marked 
 
     const alreadyMarked = await prisma.attendance.findUnique({

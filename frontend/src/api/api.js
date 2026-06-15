@@ -19,7 +19,7 @@ export const apiRequest = async (
 
   const response = await fetch(`${BASE_URL}${endpoint}`, options);
   const data = await response.json();
-  if (!response) {
+  if (!response.ok) {
     throw new Error(data.message || "Something went wrong");
   }
   return data;
