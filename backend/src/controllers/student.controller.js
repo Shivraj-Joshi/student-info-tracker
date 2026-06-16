@@ -1,4 +1,4 @@
-import { createStudent, loginStudent, getAllStudent } from "../services/student.service.js";
+import { createStudent, loginStudent, getAllStudent, deleteStudent } from "../services/student.service.js";
 
 export const register = async (req, res) => {
     try {
@@ -27,5 +27,15 @@ export const getAll = async (req, res) => {
         res.json(result)
     } catch (error) {
         res.status(400).json({ message: error.message })
+    }
+}
+
+export const remove = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id)
+        const result = await deleteStudent(id)
+        res.json(result)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
     }
 }

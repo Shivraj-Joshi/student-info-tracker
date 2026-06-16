@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 
 export const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization
-    console.log('SECRET:', process.env.JWT_SECRET_KEY)
-    console.log('HEADER:', JSON.stringify(req.headers.authorization))
+    // console.log('SECRET:', process.env.JWT_SECRET_KEY)
+    // console.log('HEADER:', JSON.stringify(req.headers.authorization))
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: 'No token provided' })
     }
@@ -15,7 +15,7 @@ export const authenticate = (req, res, next) => {
         req.user = decoded  // { id, role } now available in every route
         next()
     } catch (err) {
-        console.log('JWT ERROR:', err.message)
+        // console.log('JWT ERROR:', err.message)
         return res.status(401).json({ message: 'Invalid or expired token' })
     }
 }

@@ -21,7 +21,7 @@ async function main() {
         },
 
     })
-    console.log('Admin seeded : ', admin.email)
+    // console.log('Admin seeded : ', admin.email)
 }
 
 main()

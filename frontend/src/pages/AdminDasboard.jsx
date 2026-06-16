@@ -11,6 +11,15 @@ const AdminDasboard = () => {
     studentId: "",
     subjectId: "",
   });
+  const [studentForm, setStudentForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    rollNumber: "",
+    phone: "",
+    class: "",
+    dob: "",
+  });
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -72,7 +81,7 @@ const AdminDasboard = () => {
         },
         user.token,
       );
-      console.log(result);
+      // console.log(result);
       setMessage("Teacher added successfully");
       setTeacherForm({
         name: "",
@@ -141,6 +150,50 @@ const AdminDasboard = () => {
     }
   };
 
+  //Adding a new student
+
+  const handleAddStudent = async () => {
+    try {
+      const result = await apiRequest(
+        "/api/student/register",
+        "POST",
+        {
+          name: studentForm.name,
+          email: studentForm.email,
+          password: studentForm.password,
+          rollNumber: studentForm.rollNumber,
+          phone: studentForm.phone,
+          class: studentForm.class,
+          dob: studentForm.dob,
+        },
+        user.token,
+      );
+      setMessage("Student Added Successfully");
+      setStudentForm({
+        name: "",
+        email: "",
+        password: "",
+        rollNumber: "",
+        phone: "",
+        class: "",
+        dob: "",
+      });
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+  // deleting a student
+  const handleDeleteStudent = async (id) => {
+    try {
+      await apiRequest(`/api/student/${id}`, "DELETE", null, user.token);
+      setMessage("Student deleted successfully");
+      setStudents(students.filter((s) => s.id !== id));
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
   //enrolling students in subject
 
   const handleEnrollStudent = async () => {
@@ -189,6 +242,8 @@ const AdminDasboard = () => {
             { key: "teachers", label: "Manage Teachers" },
             { key: "add", label: "Add Teacher" },
             { key: "subjects", label: "Manage Subjects" },
+            { key: "student", label: "Manage Students" },
+            { key: "addStudent", label: "Add Students" },
             { key: "enrollment", label: "Enroll Students" },
           ].map((item) => (
             <button
@@ -504,6 +559,113 @@ const AdminDasboard = () => {
           </div>
         )}
 
+        {/*Manage student tab */}
+        {activeTab === "student" && (
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+              Manage Students
+            </h1>
+            {message && (
+              <p
+                className={`text-sm mb-4 ${message.includes("successfully") ? "text-green-600" : "text-red-500"}`}
+              >
+                {message}
+              </p>
+            )}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              {students.length === 0 ? (
+                <p className="text-gray-400 text-sm">No Students added yet.</p>
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-gray-400 border-b border-gray-100">
+                      <th className="pb-3 font-medium w-1/4">Name</th>
+                      <th className="pb-3 font-medium w-1/4">Email</th>
+                      <th className="pb-3 font-medium w-1/4">Phone</th>
+                      <th className="pb-3 font-medium w-1/4">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {students.map((s) => (
+                      <tr
+                        key={s.id}
+                        className="border-b border-gray-50 last:border-0"
+                      >
+                        <td className="py-3 text-gray-700 w-1/4">{s.name}</td>
+                        <td className="py-3 text-gray-500 w-1/4">{s.email}</td>
+                        <td className="py-3 text-gray-500 w-1/4">
+                          {s.phone || "-"}
+                        </td>
+                        <td className="py-3 w-1/4">
+                          <button
+                            onClick={() => handleDeleteStudent(s.id)}
+                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/*Add student tab */}
+        {activeTab === "addStudent" && (
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+              Add Student
+            </h1>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
+              {message && (
+                <p
+                  className={`text-sm mb-4 ${message.includes("Successfully") ? "text-green-600" : "text-red-500"}`}
+                >
+                  {message}
+                </p>
+              )}
+              <div className="space-y-4">
+                {[
+                  { label: "Name", key: "name", type: "text" },
+                  { label: "Email", key: "email", type: "email" },
+                  { label: "Password", key: "password", type: "password" },
+                  { label: "Roll Number", key: "rollNumber", type: "text" },
+                  { label: "Phone", key: "phone", type: "text" },
+                  { label: "Class", key: "class", type: "text" },
+                  { label: "Date of Birth", key: "dob", type: "date" },
+                ].map((field) => (
+                  <div key={field.key}>
+                    <label className="block text-sm text-gray-600 mb-1">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      value={studentForm[field.key]}
+                      onChange={(e) =>
+                        setStudentForm({
+                          ...studentForm,
+                          [field.key]: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                    />
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={handleAddStudent}
+                  className="w-full bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600 cursor-pointer"
+                >
+                  Add Student
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Enroll student tab */}
 
         {activeTab === "enrollment" && (
@@ -567,7 +729,7 @@ const AdminDasboard = () => {
                 <button
                   type="button"
                   onClick={handleEnrollStudent}
-                  className="w-full bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600"
+                  className="w-full bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600 cursor-pointer"
                 >
                   Enroll Student
                 </button>

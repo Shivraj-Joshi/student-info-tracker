@@ -68,3 +68,15 @@ export const getAllStudent = async () => {
         select: { id: true, name: true, email: true, phone: true, rollNumber: true }
     })
 }
+
+export const deleteStudent = async (id) => {
+    // console.log('DELETE STUDENT ID:', id, typeof id)
+    const student = await prisma.student.findUnique({
+        where: { id }
+    });
+    if (!student) {
+        throw new Error('No Student Found')
+    }
+    await prisma.student.delete({ where: { id } })
+    return { message: 'Student removed successfully' }
+}
