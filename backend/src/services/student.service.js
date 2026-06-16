@@ -62,3 +62,9 @@ export const loginStudent = async (email, password) => {
     return { token, name: student.name, email: student.email }
 
 }
+
+export const getAllStudent = async () => {
+    return await prisma.student.findMany({
+        select: { id: true, name: true, email: true, phone: true, rollNumber: true }
+    })
+}

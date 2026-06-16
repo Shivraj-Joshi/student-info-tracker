@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 const AdminDasboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [students, setStudents] = useState([]);
+  const [enrollmentForm, setEnrollmentForm] = useState({
+    studentId: "",
+    subjectId: "",
+  });
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -23,8 +28,10 @@ const AdminDasboard = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
+        //teacher data
         const data = await apiRequest("/api/teacher", "GET", null, user.token);
         setTeachers(data);
+        //subject data
         const subjectData = await apiRequest(
           "/api/teacher/subjects",
           "GET",
@@ -32,6 +39,15 @@ const AdminDasboard = () => {
           user.token,
         );
         setSubjects(subjectData);
+
+        //students data
+        const studentData = await apiRequest(
+          "/api/student",
+          "GET",
+          null,
+          user.token,
+        );
+        setStudents(studentData);
       } catch (error) {
         console.error(error);
       } finally {
@@ -125,6 +141,26 @@ const AdminDasboard = () => {
     }
   };
 
+  //enrolling students in subject
+
+  const handleEnrollStudent = async () => {
+    try {
+      await apiRequest(
+        "/api/enrollment",
+        "POST",
+        {
+          studentId: parseInt(enrollmentForm.studentId),
+          subjectId: parseInt(enrollmentForm.subjectId),
+        },
+        user.token,
+      );
+      setMessage("Student enrolled successfully");
+      setEnrollmentForm({ studentId: "", subjectId: "" });
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -153,6 +189,7 @@ const AdminDasboard = () => {
             { key: "teachers", label: "Manage Teachers" },
             { key: "add", label: "Add Teacher" },
             { key: "subjects", label: "Manage Subjects" },
+            { key: "enrollment", label: "Enroll Students" },
           ].map((item) => (
             <button
               key={item.key}
@@ -463,6 +500,78 @@ const AdminDasboard = () => {
                   </tbody>
                 </table>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Enroll student tab */}
+
+        {activeTab === "enrollment" && (
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+              Enroll Student
+            </h1>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
+              {message && (
+                <p
+                  className={`text-sm mb-4 ${message.includes("success") ? "text-green-600" : "text-red-500"}`}
+                >
+                  {message}
+                </p>
+              )}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Select Student
+                  </label>
+                  <select
+                    value={enrollmentForm.studentId}
+                    onChange={(e) =>
+                      setEnrollmentForm({
+                        ...enrollmentForm,
+                        studentId: e.target.value,
+                      })
+                    }
+                    className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                  >
+                    <option value="">Select a student</option>
+                    {students.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} — {s.rollNumber}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">
+                    Select Subject
+                  </label>
+                  <select
+                    value={enrollmentForm.subjectId}
+                    onChange={(e) =>
+                      setEnrollmentForm({
+                        ...enrollmentForm,
+                        subjectId: e.target.value,
+                      })
+                    }
+                    className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                  >
+                    <option value="">Select a subject</option>
+                    {subjects.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleEnrollStudent}
+                  className="w-full bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600"
+                >
+                  Enroll Student
+                </button>
+              </div>
             </div>
           </div>
         )}

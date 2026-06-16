@@ -1,4 +1,4 @@
-import { createStudent, loginStudent } from "../services/student.service.js";
+import { createStudent, loginStudent, getAllStudent } from "../services/student.service.js";
 
 export const register = async (req, res) => {
     try {
@@ -15,6 +15,15 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body
         const result = await loginStudent(email, password)
+        res.json(result)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+export const getAll = async (req, res) => {
+    try {
+        const result = await getAllStudent()
         res.json(result)
     } catch (error) {
         res.status(400).json({ message: error.message })
