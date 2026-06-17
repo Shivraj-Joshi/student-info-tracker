@@ -222,9 +222,9 @@ const AdminDasboard = () => {
     );
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 fixed h-full">
+      <aside className="w-full lg:w-56  bg-white border-b lg:border-b-0 lg:border-r border-gray-100 flex flex-col py-4 lg:py-6 px-4 lg:fixed lg:h-full">
         <div className="mb-8">
           <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">
             Admin
@@ -274,7 +274,7 @@ const AdminDasboard = () => {
       </aside>
 
       {/* Main content */}
-      <main className="ml-56 flex-1 p-8">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-56">
         {/* Dashboard tab */}
         {activeTab === "dashboard" && (
           <div>
@@ -285,7 +285,7 @@ const AdminDasboard = () => {
               Welcome back, {user.name}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
                 <p className="text-xs text-gray-400 mb-1">Total Teachers</p>
                 <p className="text-2xl font-semibold text-red-600">
@@ -306,42 +306,49 @@ const AdminDasboard = () => {
               {teachers.length === 0 ? (
                 <p className="text-gray-400 text-sm">No teachers added yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/4">Name</th>
-                      <th className="pb-3 font-medium w-1/4">Email</th>
-                      <th className="pb-3 font-medium w-1/4">Phone</th>
-                      <th className="pb-3 font-medium w-1/4">Subject</th>
-                      <th className="pb-3 font-medium w-1/4">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {teachers.map((t) => (
-                      <tr
-                        key={t.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/5">{t.name}</td>
-                        <td className="py-3 text-gray-500 w-1/5">{t.email}</td>
-                        <td className="py-3 text-gray-500 w-1/5">
-                          {t.phone || "-"}
-                        </td>
-                        <td className="py-3 text-gray-500 w-1/5">
-                          {t.subject.name}
-                        </td>
-                        <td className="py-3 w-1/5">
-                          <button
-                            onClick={() => handleDeleteTeacher(t.id)}
-                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <div className="overflow-x-auto">
+                  {" "}
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/4">Name</th>
+                        <th className="pb-3 font-medium w-1/4">Email</th>
+                        <th className="pb-3 font-medium w-1/4">Phone</th>
+                        <th className="pb-3 font-medium w-1/4">Subject</th>
+                        <th className="pb-3 font-medium w-1/4">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {teachers.map((t) => (
+                        <tr
+                          key={t.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.name}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.email}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.phone || "-"}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.subject.name}
+                          </td>
+                          <td className="py-3 whitespace-nowrap">
+                            <button
+                              onClick={() => handleDeleteTeacher(t.id)}
+                              className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -350,7 +357,7 @@ const AdminDasboard = () => {
         {/* Manage Teachers tab */}
         {activeTab === "teachers" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Manage Teachers
             </h1>
             {message && (
@@ -364,38 +371,44 @@ const AdminDasboard = () => {
               {teachers.length === 0 ? (
                 <p className="text-gray-400 text-sm">No teachers added yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/4">Name</th>
-                      <th className="pb-3 font-medium w-1/4">Email</th>
-                      <th className="pb-3 font-medium w-1/4">Phone</th>
-                      <th className="pb-3 font-medium w-1/4">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {teachers.map((t) => (
-                      <tr
-                        key={t.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/4">{t.name}</td>
-                        <td className="py-3 text-gray-500 w-1/4">{t.email}</td>
-                        <td className="py-3 text-gray-500 w-1/4">
-                          {t.phone || "-"}
-                        </td>
-                        <td className="py-3 w-1/4">
-                          <button
-                            onClick={() => handleDeleteTeacher(t.id)}
-                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <div className=" overflow-x-auto ">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/4">Name</th>
+                        <th className="pb-3 font-medium w-1/4">Email</th>
+                        <th className="pb-3 font-medium w-1/4">Phone</th>
+                        <th className="pb-3 font-medium w-1/4">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {teachers.map((t) => (
+                        <tr
+                          key={t.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap">
+                            {t.name}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.email}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {t.phone || "-"}
+                          </td>
+                          <td className="py-3 whitespace-nowrap">
+                            <button
+                              onClick={() => handleDeleteTeacher(t.id)}
+                              className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -404,10 +417,20 @@ const AdminDasboard = () => {
         {/* Add Teacher tab */}
         {activeTab === "add" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Add Teacher
             </h1>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
+            <div
+              className=" bg-white
+    rounded-xl
+    shadow-sm
+    border
+    border-gray-100
+    p-4
+    sm:p-6
+    max-w-md
+    w-full"
+            >
               {message && (
                 <p
                   className={`text-sm mb-4 ${message.includes("successfully") ? "text-green-600" : "text-red-500"}`}
@@ -480,7 +503,7 @@ const AdminDasboard = () => {
 
         {activeTab === "subjects" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Manage Subjects
             </h1>
 
@@ -528,32 +551,36 @@ const AdminDasboard = () => {
               {subjects.length === 0 ? (
                 <p className="text-gray-400 text-sm">No subjects added yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/2">Subject Name</th>
-                      <th className="pb-3 font-medium w-1/2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subjects.map((s) => (
-                      <tr
-                        key={s.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/2">{s.name}</td>
-                        <td className="py-3 w-1/2">
-                          <button
-                            onClick={() => handleDeleteSubject(s.id)}
-                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/2">Subject Name</th>
+                        <th className="pb-3 font-medium w-1/2">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {subjects.map((s) => (
+                        <tr
+                          key={s.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap">
+                            {s.name}
+                          </td>
+                          <td className="py-3 whitespace-nowrap">
+                            <button
+                              onClick={() => handleDeleteSubject(s.id)}
+                              className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -562,7 +589,7 @@ const AdminDasboard = () => {
         {/*Manage student tab */}
         {activeTab === "student" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Manage Students
             </h1>
             {message && (
@@ -576,38 +603,44 @@ const AdminDasboard = () => {
               {students.length === 0 ? (
                 <p className="text-gray-400 text-sm">No Students added yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/4">Name</th>
-                      <th className="pb-3 font-medium w-1/4">Email</th>
-                      <th className="pb-3 font-medium w-1/4">Phone</th>
-                      <th className="pb-3 font-medium w-1/4">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((s) => (
-                      <tr
-                        key={s.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/4">{s.name}</td>
-                        <td className="py-3 text-gray-500 w-1/4">{s.email}</td>
-                        <td className="py-3 text-gray-500 w-1/4">
-                          {s.phone || "-"}
-                        </td>
-                        <td className="py-3 w-1/4">
-                          <button
-                            onClick={() => handleDeleteStudent(s.id)}
-                            className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <div className=" overflow-x-auto ">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/4">Name</th>
+                        <th className="pb-3 font-medium w-1/4">Email</th>
+                        <th className="pb-3 font-medium w-1/4">Phone</th>
+                        <th className="pb-3 font-medium w-1/4">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {students.map((s) => (
+                        <tr
+                          key={s.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap">
+                            {s.name}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {s.email}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {s.phone || "-"}
+                          </td>
+                          <td className="py-3 whitespace-nowrap">
+                            <button
+                              onClick={() => handleDeleteStudent(s.id)}
+                              className="text-red-400 hover:text-red-600 text-xs cursor-pointer"
+                            >
+                              Remove
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -616,10 +649,20 @@ const AdminDasboard = () => {
         {/*Add student tab */}
         {activeTab === "addStudent" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Add Student
             </h1>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
+            <div
+              className=" bg-white
+    rounded-xl
+    shadow-sm
+    border
+    border-gray-100
+    p-4
+    sm:p-6
+    max-w-md
+    w-full"
+            >
               {message && (
                 <p
                   className={`text-sm mb-4 ${message.includes("Successfully") ? "text-green-600" : "text-red-500"}`}
@@ -670,10 +713,20 @@ const AdminDasboard = () => {
 
         {activeTab === "enrollment" && (
           <div>
-            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-6">
               Enroll Student
             </h1>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-md">
+            <div
+              className=" bg-white
+    rounded-xl
+    shadow-sm
+    border
+    border-gray-100
+    p-4
+    sm:p-6
+    max-w-md
+    w-full"
+            >
               {message && (
                 <p
                   className={`text-sm mb-4 ${message.includes("success") ? "text-green-600" : "text-red-500"}`}

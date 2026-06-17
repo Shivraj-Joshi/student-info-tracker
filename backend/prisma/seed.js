@@ -7,16 +7,16 @@ async function main() {
 
     //hashing the password
 
-    const hashedPassword = await bycrpt.hash('Shivraj07', 10);
+    const hashedPassword = await bycrpt.hash('admin123', 10);
 
     //creating the admin in the database
 
     const admin = await prisma.admin.upsert({
-        where: { email: 'iamshivrajjoshi07@gmail.com' },
+        where: { email: 'admin@school.com' },
         update: {},
         create: {
             name: 'Super Admin',
-            email: 'iamshivrajjoshi07@gmail.com',
+            email: 'admin@school.com',
             password: hashedPassword
         },
 
