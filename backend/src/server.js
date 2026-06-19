@@ -1,6 +1,7 @@
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
+import rateLimit from 'express-rate-limit'
 import adminRoutes from './routes/admin.routes.js'
 import teacherRoutes from './routes/teacher.routes.js'
 import studentRoutes from './routes/student.routes.js'
@@ -12,11 +13,20 @@ import subjectRoutes from './routes/subjects.routes.js'
 const app = express()
 const PORT = process.env.PORT || 3000
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100,
+    message: { message: "Too many requests, please try again after sometime" }
+})
+
+app.use(limiter)
 app.use(helmet())
 app.use(express.json())
 app.use(cors({
     origin: "http://localhost:5173"
 }))
+
+
 app.use('/api/admin', adminRoutes)
 app.use('/api/teacher', teacherRoutes)
 app.use('/api/student', studentRoutes)
