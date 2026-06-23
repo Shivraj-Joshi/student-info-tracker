@@ -1,7 +1,19 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext.jsx";
 import { apiRequest } from "../api/api.js";
 import { useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Users,
+  UserPlus,
+  GraduationCap,
+  UserRoundPlus,
+  ClipboardList,
+  ShieldUser,
+  Menu,
+  X,
+} from "lucide-react";
 
 const AdminDasboard = () => {
   const { user, logout } = useAuth();
@@ -33,6 +45,7 @@ const AdminDasboard = () => {
   });
   const [subjects, setSubjects] = useState([]);
   const [subjectForm, setSubjectForm] = useState({ name: "" });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -221,46 +234,90 @@ const AdminDasboard = () => {
       </div>
     );
 
+  const menuitems = [
+    { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { key: "teachers", label: "Manage Teachers", icon: Users },
+    { key: "add", label: "Add Teacher", icon: UserPlus },
+    { key: "subjects", label: "Manage Subjects", icon: BookOpen },
+    { key: "student", label: "Manage Students", icon: GraduationCap },
+    { key: "addStudent", label: "Add Students", icon: UserRoundPlus },
+    { key: "enrollment", label: "Enroll Students", icon: ClipboardList },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-full lg:w-56  bg-white border-b lg:border-b-0 lg:border-r border-gray-100 flex flex-col py-4 lg:py-6 px-4 lg:fixed lg:h-full">
+      <aside
+        className={`fixed
+    top-0
+    left-0
+    z-50
+    h-full
+    w-64
+    bg-white
+    border-r
+    border-gray-100
+    flex
+    flex-col
+    py-6
+    px-4
+    transform
+    transition-transform
+    duration-300
+
+    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+
+    lg:translate-x-0
+    lg:w-56`}
+      >
+        {/**Sidebar button */}
+        <div className="flex justify-between items-center mb-6 lg:hidden">
+          <ShieldUser size={20} />
+
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
         <div className="mb-8">
           <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">
             Admin
           </p>
-          <h2 className="text-base font-semibold text-gray-800">{user.name}</h2>
+          <h2 className="text-base font-semibold text-gray-800">
+            <span>{user.name}</span>
+          </h2>
           <p className="text-xs text-gray-400">{user.email}</p>
         </div>
 
         <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">
           General
         </p>
+
         <nav className="flex flex-col gap-1 mb-6">
-          {[
-            { key: "dashboard", label: "Dashboard" },
-            { key: "teachers", label: "Manage Teachers" },
-            { key: "add", label: "Add Teacher" },
-            { key: "subjects", label: "Manage Subjects" },
-            { key: "student", label: "Manage Students" },
-            { key: "addStudent", label: "Add Students" },
-            { key: "enrollment", label: "Enroll Students" },
-          ].map((item) => (
-            <button
-              key={item.key}
-              onClick={() => {
-                setActiveTab(item.key);
-                setMessage("");
-              }}
-              className={`text-left px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                activeTab === item.key
-                  ? "bg-red-50 text-red-700 font-medium"
-                  : "text-gray-500 hover:bg-gray-50"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {menuitems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.key}
+                onClick={() => {
+                  setActiveTab(item.key);
+                  setMessage("");
+                  setSidebarOpen(false);
+                }}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
+                  activeTab === item.key
+                    ? "bg-red-50 text-red-700 font-medium"
+                    : "text-gray-500 hover:bg-gray-50"
+                }`}
+              >
+                <Icon size={18} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
 
         <div className="mt-auto">
@@ -273,8 +330,37 @@ const AdminDasboard = () => {
         </div>
       </aside>
 
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="
+      fixed
+      inset-0
+      bg-black/40
+      z-40
+      lg:hidden
+    "
+        />
+      )}
+
       {/* Main content */}
       <main className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-56">
+        <button
+          onClick={() => setSidebarOpen((prev) => !prev)}
+          className="
+    lg:hidden
+    mb-4
+    p-2
+    rounded-lg
+    bg-white
+    border
+    border-gray-200
+    shadow-sm
+    cursor-pointer
+  "
+        >
+          <Menu size={20} />
+        </button>
         {/* Dashboard tab */}
         {activeTab === "dashboard" && (
           <div>

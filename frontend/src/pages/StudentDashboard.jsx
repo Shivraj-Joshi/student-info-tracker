@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext.jsx";
 import { apiRequest } from "../api/api.js";
 import { useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  GraduationCap,
+  ClipboardCheck,
+  BookOpen,
+  Menu,
+  X,
+} from "lucide-react";
 
 const StudentDashboard = () => {
   const { user, logout } = useAuth();
@@ -11,6 +19,7 @@ const StudentDashboard = () => {
   const [grades, setGrades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,10 +59,66 @@ const StudentDashboard = () => {
       </div>
     );
 
+  const menuItems = [
+    {
+      key: "dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      key: "grades",
+      label: "Grades",
+      icon: GraduationCap,
+    },
+    {
+      key: "attendance",
+      label: "Attendance",
+      icon: ClipboardCheck,
+    },
+    {
+      key: "subjects",
+      label: "Subjects",
+      icon: BookOpen,
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col py-6 px-4 fixed h-full">
+      <aside
+        className={`fixed
+    top-0
+    left-0
+    z-50
+    h-full
+    w-64
+    bg-white
+    border-r
+    border-gray-100
+    flex
+    flex-col
+    py-6
+    px-4
+    transform
+    transition-transform
+    duration-300
+
+    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+
+    lg:translate-x-0
+    lg:w-56`}
+      >
+        <div className="flex justify-between items-center mb-6 lg:hidden">
+          <h2 className="font-semibold text-gray-700">Student Panel</h2>
+
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
         <div className="mb-8">
           <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">
             E-Learning
@@ -66,24 +131,25 @@ const StudentDashboard = () => {
           General
         </p>
         <nav className="flex flex-col gap-1 mb-6">
-          {[
-            { key: "dashboard", label: "Dashboard" },
-            { key: "grades", label: "Grades" },
-            { key: "attendance", label: "Attendance" },
-            { key: "subjects", label: "Subjects" },
-          ].map((item) => (
-            <button
-              key={item.key}
-              onClick={() => setActiveTab(item.key)}
-              className={`text-left px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                activeTab === item.key
-                  ? "bg-violet-50 text-violet-700 font-medium"
-                  : "text-gray-500 hover:bg-gray-100"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.key}
+                onClick={() => {
+                  (setActiveTab(item.key), setSidebarOpen(false));
+                }}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
+                  activeTab === item.key
+                    ? "bg-violet-50 text-violet-700 font-medium"
+                    : "text-gray-500 hover:bg-gray-100"
+                }`}
+              >
+                <Icon size={18} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
 
         <div className="mt-auto">
@@ -96,8 +162,44 @@ const StudentDashboard = () => {
         </div>
       </aside>
 
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="
+      fixed
+      inset-0
+      bg-black/40
+      z-40
+      lg:hidden
+    "
+        />
+      )}
+
       {/* Main content */}
-      <main className="ml-56 flex-1 p-8">
+      <main
+        className=" flex-1
+    p-4
+    sm:p-6
+    lg:p-8
+    lg:ml-56"
+      >
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="
+    lg:hidden
+    mb-4
+    p-2
+    rounded-lg
+    bg-white
+    border
+    border-gray-200
+    shadow-sm
+    cursor-pointer
+  "
+        >
+          <Menu size={20} />
+        </button>
+
         {/* Dashboard tab */}
         {activeTab === "dashboard" && (
           <div>
@@ -109,7 +211,14 @@ const StudentDashboard = () => {
             </p>
 
             {/* Stat cards */}
-            <div className="grid grid-cols-4 gap-4 mb-8">
+            <div
+              className="  grid
+    grid-cols-1
+    sm:grid-cols-2
+    xl:grid-cols-4
+    gap-4
+    mb-8"
+            >
               {[
                 {
                   label: "Enrolled Subjects",
@@ -152,35 +261,37 @@ const StudentDashboard = () => {
               {grades.length === 0 ? (
                 <p className="text-gray-400 text-sm">No grades recorded yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/3">Subject</th>
-                      <th className="pb-3 font-medium w-1/3">Score</th>
-                      <th className="pb-3 font-medium w-1/3">Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {grades.map((g) => (
-                      <tr
-                        key={g.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/3">
-                          {g.subject.name}
-                        </td>
-                        <td className="py-3 w-1/3">
-                          <span className="bg-violet-50 text-violet-700 px-2 py-1 rounded-full text-xs font-medium">
-                            {g.score}
-                          </span>
-                        </td>
-                        <td className="py-3 text-gray-400 w-1/3">
-                          {g.remarks || "-"}
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/3">Subject</th>
+                        <th className="pb-3 font-medium w-1/3">Score</th>
+                        <th className="pb-3 font-medium w-1/3">Remarks</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {grades.map((g) => (
+                        <tr
+                          key={g.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap w-1/3">
+                            {g.subject.name}
+                          </td>
+                          <td className="py-3 whitespace-nowrap w-1/3">
+                            <span className="bg-violet-50 text-violet-700 px-2 py-1 rounded-full text-xs font-medium">
+                              {g.score}
+                            </span>
+                          </td>
+                          <td className="py-3 text-gray-400 whitespace-nowrap w-1/3">
+                            {g.remarks || "-"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
 
@@ -194,43 +305,45 @@ const StudentDashboard = () => {
                   No attendance records yet.
                 </p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/3">Subject</th>
-                      <th className="pb-3 font-medium w-1/3">Date</th>
-                      <th className="pb-3 font-medium w-1/3">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attendance.slice(0, 5).map((a) => (
-                      <tr
-                        key={a.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/3">
-                          {a.subject.name}
-                        </td>
-                        <td className="py-3 text-gray-500 w-1/3">
-                          {new Date(a.date).toLocaleDateString()}
-                        </td>
-                        <td className="py-3 w-1/3">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              a.status === "PRESENT"
-                                ? "bg-green-50 text-green-600"
-                                : a.status === "ABSENT"
-                                  ? "bg-red-50 text-red-500"
-                                  : "bg-yellow-50 text-yellow-600"
-                            }`}
-                          >
-                            {a.status}
-                          </span>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/3">Subject</th>
+                        <th className="pb-3 font-medium w-1/3">Date</th>
+                        <th className="pb-3 font-medium w-1/3">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {attendance.slice(0, 5).map((a) => (
+                        <tr
+                          key={a.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap w-1/3">
+                            {a.subject.name}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap w-1/3">
+                            {new Date(a.date).toLocaleDateString()}
+                          </td>
+                          <td className="py-3 whitespace-nowrap w-1/3">
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                a.status === "PRESENT"
+                                  ? "bg-green-50 text-green-600"
+                                  : a.status === "ABSENT"
+                                    ? "bg-red-50 text-red-500"
+                                    : "bg-yellow-50 text-yellow-600"
+                              }`}
+                            >
+                              {a.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -246,35 +359,37 @@ const StudentDashboard = () => {
               {grades.length === 0 ? (
                 <p className="text-gray-400 text-sm">No grades recorded yet.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium w-1/3">Subject</th>
-                      <th className="pb-3 font-medium w-1/3">Score</th>
-                      <th className="pb-3 font-medium w-1/3">Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {grades.map((g) => (
-                      <tr
-                        key={g.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700 w-1/3">
-                          {g.subject.name}
-                        </td>
-                        <td className="py-3 w-1/3">
-                          <span className="bg-violet-50 text-violet-700 px-2 py-1 rounded-full text-xs font-medium">
-                            {g.score}
-                          </span>
-                        </td>
-                        <td className="py-3 text-gray-400 w-1/3">
-                          {g.remarks || "-"}
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium w-1/3">Subject</th>
+                        <th className="pb-3 font-medium w-1/3">Score</th>
+                        <th className="pb-3 font-medium w-1/3">Remarks</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {grades.map((g) => (
+                        <tr
+                          key={g.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap w-1/3">
+                            {g.subject.name}
+                          </td>
+                          <td className="py-3 whitespace-nowrap w-1/3">
+                            <span className="bg-violet-50 text-violet-700 px-2 py-1 rounded-full text-xs font-medium">
+                              {g.score}
+                            </span>
+                          </td>
+                          <td className="py-3 text-gray-400 whitespace-nowrap w-1/3">
+                            {g.remarks || "-"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>{" "}
+                </div>
               )}
             </div>
           </div>
@@ -292,41 +407,45 @@ const StudentDashboard = () => {
                   No attendance records yet.
                 </p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 border-b border-gray-100">
-                      <th className="pb-3 font-medium">Subject</th>
-                      <th className="pb-3 font-medium">Date</th>
-                      <th className="pb-3 font-medium">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attendance.map((a) => (
-                      <tr
-                        key={a.id}
-                        className="border-b border-gray-50 last:border-0"
-                      >
-                        <td className="py-3 text-gray-700">{a.subject.name}</td>
-                        <td className="py-3 text-gray-500">
-                          {new Date(a.date).toLocaleDateString()}
-                        </td>
-                        <td className="py-3">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              a.status === "PRESENT"
-                                ? "bg-green-50 text-green-600"
-                                : a.status === "ABSENT"
-                                  ? "bg-red-50 text-red-500"
-                                  : "bg-yellow-50 text-yellow-600"
-                            }`}
-                          >
-                            {a.status}
-                          </span>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-175 text-sm">
+                    <thead>
+                      <tr className="text-left text-gray-400 border-b border-gray-100">
+                        <th className="pb-3 font-medium">Subject</th>
+                        <th className="pb-3 font-medium">Date</th>
+                        <th className="pb-3 font-medium">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {attendance.map((a) => (
+                        <tr
+                          key={a.id}
+                          className="border-b border-gray-50 last:border-0"
+                        >
+                          <td className="py-3 text-gray-700 whitespace-nowrap">
+                            {a.subject.name}
+                          </td>
+                          <td className="py-3 text-gray-500 whitespace-nowrap">
+                            {new Date(a.date).toLocaleDateString()}
+                          </td>
+                          <td className="py-3 whitespace-nowrap">
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                a.status === "PRESENT"
+                                  ? "bg-green-50 text-green-600"
+                                  : a.status === "ABSENT"
+                                    ? "bg-red-50 text-red-500"
+                                    : "bg-yellow-50 text-yellow-600"
+                              }`}
+                            >
+                              {a.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </div>
@@ -338,7 +457,13 @@ const StudentDashboard = () => {
             <h1 className="text-xl font-semibold text-gray-800 mb-6">
               My Subjects
             </h1>
-            <div className="grid grid-cols-3 gap-4">
+            <div
+              className=" grid
+    grid-cols-1
+    sm:grid-cols-2
+    lg:grid-cols-3
+    gap-4"
+            >
               {enrollments.length === 0 ? (
                 <p className="text-gray-400 text-sm">
                   No subjects enrolled yet.
