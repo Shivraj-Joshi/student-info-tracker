@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/authContext.jsx";
 import Login from "./pages/Login.jsx";
-import ProtectedRoute from "./components/protectedRoutes.jsx";
+import ProtectedRoute from "./components/ProtectedRoutes.jsx";
 import StudentDashboard from "./pages/StudentDashboard.jsx";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import AdminDasboard from "./pages/AdminDasboard.jsx";
