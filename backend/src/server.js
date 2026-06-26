@@ -23,7 +23,7 @@ app.use(limiter)
 app.use(helmet())
 app.use(express.json())
 app.use(cors({
-    origin: "https://student-info-tracker.vercel.app/"
+    origin: "https://student-info-tracker.vercel.app"
 }))
 
 
